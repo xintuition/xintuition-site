@@ -1,64 +1,44 @@
-// main.js - Xintuition 2026 modern interactivity
+// main.js
 
-// 1️⃣ Smooth scrolling for internal links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(anchor.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
-// 2️⃣ Fade-in sections on scroll
-const faders = document.querySelectorAll('section, .fade-in');
-const appearOptions = { threshold: 0.25, rootMargin: "0px 0px -50px 0px" };
-const appearOnScroll = new IntersectionObserver((entries, observer) => {
+// === Fade-in sections on scroll ===
+const fadeElements = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add('appear');
-    observer.unobserve(entry.target);
+    if(entry.isIntersecting){
+      entry.target.style.opacity = 1;
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
   });
-}, appearOptions);
+}, { threshold: 0.2 });
 
-faders.forEach(fader => appearOnScroll.observe(fader));
+fadeElements.forEach(el => observer.observe(el));
 
-// 3️⃣ Logo hover + click effect
-const logo = document.querySelector('header img');
-if (logo) {
-  logo.style.transition = 'transform 0.3s ease, filter 0.3s ease';
-  logo.addEventListener('mouseenter', () => {
-    logo.style.transform = 'scale(1.2) rotate(5deg)';
-    logo.style.filter = 'drop-shadow(0 0 15px rgba(255,255,255,0.8))';
-  });
-  logo.addEventListener('mouseleave', () => {
-    logo.style.transform = 'scale(1) rotate(0deg)';
-    logo.style.filter = 'none';
-  });
-  logo.addEventListener('click', () => {
-    alert('Welcome to Xintuition!');
-  });
-}
-
-// 4️⃣ Button hover effect
-document.querySelectorAll('button, .cta').forEach(btn => {
-  btn.addEventListener('mouseenter', () => btn.classList.add('hovered'));
-  btn.addEventListener('mouseleave', () => btn.classList.remove('hovered'));
+// === Floating/pulsing animation for CTA buttons ===
+const floatElements = document.querySelectorAll('.float');
+floatElements.forEach(el => {
+  let direction = 1;
+  setInterval(() => {
+    el.style.transform = `translateY(${direction * 5}px)`;
+    direction *= -1;
+  }, 1500);
 });
 
-// 5️⃣ Dynamic footer year
-const footerYear = document.querySelector('footer p');
-if (footerYear) {
-  const year = new Date().getFullYear();
-  footerYear.textContent = `© ${year} Xintuition`;
+// === Hero background subtle pulse ===
+const heroBg = document.querySelector('.hero-bg');
+if(heroBg){
+  let hue = 0;
+  setInterval(() => {
+    hue = (hue + 1) % 360;
+    heroBg.style.background = `radial-gradient(circle at 50% 50%, hsl(${hue}, 70%, 60%), transparent 70%)`;
+  }, 50);
 }
 
-// 6️⃣ Floating elements animation
-const floatEls = document.querySelectorAll('.float');
-floatEls.forEach(el => {
-  let pos = 0, dir = 1;
-  setInterval(() => {
-    pos += dir * 0.5;
-    if (pos > 10 || pos < -10) dir *= -1;
-    el.style.transform = `translateY(${pos}px)`;
-  }, 30);
+// === Optional: Slight parallax for listings ===
+const listings = document.querySelectorAll('.listing-card');
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  listings.forEach((card, i) => {
+    card.style.transform = `translateY(${Math.sin(scrollY / 100 + i) * 10}px)`;
+  });
 });
