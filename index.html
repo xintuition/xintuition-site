@@ -1,56 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xintuition Real Estate</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href= "main-theme.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xintuition Real Estate</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="main-theme.css">
 </head>
 <body>
-    <header>
-  <h1 class="logo">XINTUITION</h1>
-        <nav>
-            <a href="#listings">Listings</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
 
-    <section id="hero">
-        <h2>Luxury Homes in Atlanta & Florida</h2>
-        <p>We specialize in connecting international buyers with the finest properties.</p>
+  <!-- Header -->
+  <header>
+    <h1 class="logo">XINTUITION</h1>
+    <nav>
+      <a href="#listings">Listings</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Hero Section -->
+    <section id="hero" class="fade-in">
+      <h2>Luxury Homes in Atlanta & Florida</h2>
+      <p>We specialize in connecting international buyers with the finest properties.</p>
+      <button class="cta float">Get Started</button>
     </section>
 
-    <section id="listings">
-        <h2>Featured Listings</h2>
-        <div class="listing">
-            <div class="image">Image Private</div>
-            <h3>1557 Andrew Hills Ct, Suwanee GA</h3>
-            <p>2420 sqft | $529,000</p>
-        </div>
-        <div class="listing">
-            <div class="image">Image Private</div>
-            <h3>1368 Low Water Way, Lawrenceville GA</h3>
-            <p>2538 sqft | $429,000</p>
-        </div>
+    <!-- Featured Listings -->
+    <section id="listings" class="fade-in">
+      <h2>Featured Listings</h2>
+      <div class="listing float">
+        <div class="image">Image Private</div>
+        <h3>1557 Andrew Hills Ct, Suwanee GA</h3>
+        <p>2420 sqft | $529,000</p>
+      </div>
+      <div class="listing float">
+        <div class="image">Image Private</div>
+        <h3>1368 Low Water Way, Lawrenceville GA</h3>
+        <p>2538 sqft | $429,000</p>
+      </div>
     </section>
 
-    <section id="about">
-        <h2>About Xintuition</h2>
-        <p>Georgia & Florida consistently rank #1 and #2 in the US for business. 
-        We help international buyers secure luxury real estate in these markets.</p>
+    <!-- About Section -->
+    <section id="about" class="fade-in">
+      <h2>About Xintuition</h2>
+      <p>Georgia & Florida consistently rank #1 and #2 in the US for business. 
+      We help international buyers secure luxury real estate in these markets.</p>
     </section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: info@xintuition.com</p>
+    <!-- Contact Section -->
+    <section id="contact" class="fade-in">
+      <h2>Contact</h2>
+      <p>Email: info@xintuition.com</p>
+      <button class="cta float">Get in Touch</button>
     </section>
 
-  <footer>
-  <p>© 2026 Xintuition</p>
-</footer
-  
-    <script src="main.js"></script>
+    <!-- Optional Floating Decorative Element -->
+    <div class="float" style="position: absolute; top: 30%; left: 10%; width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 50%;"></div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Xintuition</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="main.js"></script>
+
 </body>
 </html>
