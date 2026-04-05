@@ -1,8 +1,6 @@
 import OpenAI from "openai";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export default async function handler(req,res){
   if(req.method!=="POST") return res.status(405).json({error:"Method not allowed"});
@@ -12,7 +10,7 @@ export default async function handler(req,res){
     const completion = await client.chat.completions.create({
       model:"gpt-4o-mini",
       messages:[
-        {role:"system",content:"You are a helpful real estate AI assistant for luxury homes in Georgia and Florida."},
+        {role:"system",content:"You are a helpful luxury real estate AI assistant."},
         {role:"user",content:message}
       ],
       temperature:0.7
