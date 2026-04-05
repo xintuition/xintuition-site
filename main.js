@@ -1,101 +1,65 @@
-/* Gradient + GTA-inspired sunset theme for chatbot */
-#chatbot {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 360px;
-  max-height: 550px;
-  background: linear-gradient(160deg, #ff7eb3, #ff758c, #42e695);
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 0 25px rgba(255,118,140,0.5);
-  overflow: hidden;
-  z-index: 10000;
-  backdrop-filter: blur(12px);
-  animation: chat-gradient 10s ease infinite alternate;
+// Chatbot frontend
+const chatInput = document.getElementById("chatbot-input");
+const chatButton = document.getElementById("chatbot-send");
+const chatMessages = document.getElementById("chatbot-messages");
+const particlesContainer = document.getElementById("chatbot-particles");
+
+// Floating black particles
+for (let i=0;i<40;i++){
+  const p=document.createElement("div");
+  p.style.width=p.style.height=`${Math.random()*4+2}px`;
+  p.style.background="black";
+  p.style.position="absolute";
+  p.style.borderRadius="50%";
+  p.style.left=`${Math.random()*100}%`;
+  p.style.top=`${Math.random()*100}%`;
+  p.style.opacity=Math.random();
+  particlesContainer.appendChild(p);
+  animateParticle(p);
 }
-@keyframes chat-gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+function animateParticle(p){
+  let x=parseFloat(p.style.left);
+  let y=parseFloat(p.style.top);
+  const speedX=(Math.random()-0.5)/2;
+  const speedY=(Math.random()-0.5)/2;
+  function move(){
+    x+=speedX; y+=speedY;
+    if(x>100)x=0;if(x<0)x=100;
+    if(y>100)y=0;if(y<0)y=100;
+    p.style.left=x+"%";
+    p.style.top=y+"%";
+    requestAnimationFrame(move);
+  }
+  move();
 }
-#chatbot .chat-header {
-  padding: 0.8rem;
-  background: linear-gradient(45deg,#ff758c,#42e695);
-  color: #fff;
-  font-weight: bold;
-  text-align: center;
-  box-shadow: 0 0 10px #42e695;
+
+function addMessage(content,sender){
+  const msg=document.createElement("div");
+  msg.className=`chat-message ${sender}`;
+  msg.textContent=content;
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop=chatMessages.scrollHeight;
 }
-#chatbot .chat-messages {
-  flex: 1;
-  padding: 0.5rem;
-  overflow-y: auto;
-  color: #fff;
-  text-shadow: 0 0 6px rgba(255,255,255,0.8);
+
+async function sendMessage(){
+  const message=chatInput.value.trim();
+  if(!message)return;
+  addMessage(message,"user");
+  chatInput.value="";
+  try{
+    const res=await fetch("/api/chat",{ 
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message})
+    });
+    const data=await res.json();
+    if(data.reply)addMessage(data.reply,"ai");
+    else addMessage("Sorry, something went wrong.","ai");
+  }catch(err){
+    addMessage("Error contacting AI.","ai");
+    console.error(err);
+  }
 }
-#chat-cta {
-  margin: 0.5rem auto;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 12px;
-  font-weight: bold;
-  background: linear-gradient(45deg, #ff758c, #42e695);
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 0 12px rgba(255,118,140,0.7);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-#chat-cta:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(66,230,149,0.9);
-}
-#chatbot .particle {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: rgba(0,0,0,0.8);
-  border-radius: 50%;
-  pointer-events: none;
-  animation: particle-float 4s linear infinite;
-}
-@keyframes particle-float {
-  0% { transform: translateY(0px) translateX(0px); opacity: 0.2; }
-  50% { transform: translateY(-10px) translateX(5px); opacity: 0.7; }
-  100% { transform: translateY(0px) translateX(-5px); opacity: 0.2; }
-}
-#chatbot .sparkle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #fff;
-  opacity: 0.8;
-  pointer-events: none;
-  animation: sparkle-float 1.2s ease-out forwards;
-}
-@keyframes sparkle-float {
-  0% { transform: translate(0,0) scale(0.5); opacity: 1; }
-  50% { transform: translate(calc(-50px + 100*var(--randX)%), -30px) scale(1); opacity: 0.8; }
-  100% { transform: translate(calc(-50px + 100*var(--randX)%), -60px) scale(0.3); opacity: 0; }
-}
-#chat-preview {
-  margin: 0.5rem auto;
-  width: 90%;
-  min-height: 80px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  text-align: center;
-  padding: 0.5rem;
-  overflow: hidden;
-  font-size: 0.9rem;
-}
-#room-viewer {
-  width: 90%;
-  height: 180px;
-  margin: 0.5rem auto;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.2);
-}
+
+chatButton.addEventListener("click",sendMessage);
+chatInput.addEventListener("keydown",e=>{if(e.key==="Enter")sendMessage();});
