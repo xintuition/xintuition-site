@@ -26,8 +26,9 @@ export default async function handler(req, res) {
 
     const reply = completion.choices?.[0]?.message?.content || "Sorry, no response.";
     res.status(200).json({ reply });
+
   } catch (err) {
-    console.error("OpenAI call failed:", err);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("OpenAI API Error:", err.message || err);
+    res.status(500).json({ error: "Internal server error", details: err.message || err });
   }
 }
