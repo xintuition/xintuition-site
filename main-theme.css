@@ -1,0 +1,76 @@
+/* === GTA Sunset Theme === */
+
+/* Base & gradients */
+body {
+  background: linear-gradient(160deg, #ff6ec7, #ff9966, #4dd2ff);
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* Headers & sections */
+section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+  padding: 60px 20px;
+}
+
+section.appear {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+h1, h2, h3 {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+/* Buttons & CTAs */
+button, .cta {
+  background: linear-gradient(45deg, #ff6ec7, #ff9966, #4dd2ff);
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+button.hovered, .cta.hovered {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+/* Header */
+header {
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  padding: 20px 40px;
+  z-index: 100;
+}
+
+/* Footer */
+footer {
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.9rem;
+}
+
+/* Floating elements */
+.float {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+/* Paragraphs */
+section p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
