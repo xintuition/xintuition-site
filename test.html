@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+fetch("/api/chat", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ message: "Test AI" })
+})
+.then(r => r.json())
+.then(data => alert(JSON.stringify(data)))
+.catch(err => alert("Error: " + err));
+</script>
+</body>
+</html>
