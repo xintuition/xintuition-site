@@ -1,29 +1,37 @@
+// api/chat.js
+
 import OpenAI from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
-export default async function handler(req,res){
-  if(req.method!=='POST') return res.status(405).end();
-  const { question } = req.body;
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-  const listings = [
-    { title:"1557 Andrew Hills Ct", price:"$529,000" },
-    { title:"1368 Low Water Way", price:"$429,000" }
-  ];
+  const { message } = req.body;
 
-  const prompt = `You are a luxury real estate AI assistant.
-User asked: "${question}"
-Respond in friendly tone.
-Include HTML preview of the first listing.
-Listings: ${JSON.stringify(listings)}
-`;
+  if (!message) {
+    return res.status(400).json({ error: "No message provided" });
+  }
 
-  const aiResponse = await openai.chat.completions.create({
-    model:"gpt-4-turbo",
-    messages:[{role:"user", content:prompt}]
-  });
+  try {
+    const completion = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "You are a helpful real estate AI assistant for luxury homes in Georgia and Florida." },
+        { role: "user", content: message }
+      ],
+      temperature: 0.7
+    });
 
-  const previewHTML=`<strong>${listings[0].title}</strong><br>${listings[0].price}`;
+    const reply = completion.choices[0].message.content;
 
-  res.status(200).json({answer:aiResponse.choices[0].message.content, previewHTML});
+    res.status(200).json({ reply });
+  } catch (error) {
+    console.error("OpenAI error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 }
