@@ -1,214 +1,114 @@
-/* === Global Gradient Background === */
-body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(160deg, #ff7eb3, #ff758c, #42e695);
-  color: #ffffff;
-  overflow-x: hidden;
+/* Chatbot GTA Sunset Theme */
+#chatbot {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 360px;
+  max-height: 550px;
+  background: linear-gradient(160deg, #ff7eb3, #ff758c, #42e695);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 25px rgba(255,118,140,0.5);
+  overflow: hidden;
+  z-index: 10000;
+  backdrop-filter: blur(12px);
+  animation: chat-gradient 10s ease infinite alternate;
 }
 
-/* === Header === */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  backdrop-filter: blur(12px);
-  background: rgba(0,0,0,0.4);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+@keyframes chat-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-header .logo {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #ffffff;
-  text-shadow: 0 0 10px #ff758c;
-  cursor: pointer;
+#chatbot .chat-header {
+  padding: 0.8rem;
+  background: linear-gradient(45deg,#ff758c,#42e695);
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 10px #42e695;
 }
 
-header nav a {
-  margin-left: 1.5rem;
-  text-decoration: none;
-  color: #ffffff;
-  font-weight: 600;
-  transition: 0.3s;
+#chatbot .chat-messages {
+  flex: 1;
+  padding: 0.5rem;
+  overflow-y: auto;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(255,255,255,0.8);
 }
 
-header nav a:hover {
-  color: #42e695;
-  text-shadow: 0 0 8px #42e695;
+#chat-cta {
+  margin: 0.5rem auto;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ff758c, #42e695);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255,118,140,0.7);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* === Hero Section === */
-#hero {
-  min-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+#chat-cta:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(66,230,149,0.9);
 }
 
-.hero-bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top:0; left:0;
-  z-index: -1;
-  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), transparent 70%);
+/* Floating black particles */
+#chatbot .particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(0,0,0,0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particle-float 4s linear infinite;
 }
 
-/* Glow Hero Text */
-#hero .hero-content h2 {
-  font-size: 3rem;
-  text-shadow: 0 0 15px #ff758c;
-  margin-bottom: 1rem;
+@keyframes particle-float {
+  0% { transform: translateY(0px) translateX(0px); opacity: 0.2; }
+  50% { transform: translateY(-10px) translateX(5px); opacity: 0.7; }
+  100% { transform: translateY(0px) translateX(-5px); opacity: 0.2; }
 }
 
-#hero .hero-content p {
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
-  text-shadow: 0 0 10px rgba(255,255,255,0.6);
+/* Sparkles */
+#chatbot .sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.8;
+  pointer-events: none;
+  animation: sparkle-float 1.2s ease-out forwards;
 }
 
-/* === CTA Buttons === */
-.cta {
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  background: linear-gradient(45deg, #ff758c, #42e695);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(66,230,149,0.7);
-  transition: transform 0.3s, box-shadow 0.3s;
+@keyframes sparkle-float {
+  0% { transform: translate(0,0) scale(0.5); opacity: 1; }
+  50% { transform: translate(calc(-50px + 100*var(--randX)%), -30px) scale(1); opacity: 0.8; }
+  100% { transform: translate(calc(-50px + 100*var(--randX)%), -60px) scale(0.3); opacity: 0; }
 }
 
-.cta:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(255,118,140,0.9);
+#chat-preview {
+  margin: 0.5rem auto;
+  width: 90%;
+  min-height: 80px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  text-align: center;
+  padding: 0.5rem;
+  overflow: hidden;
+  font-size: 0.9rem;
 }
 
-/* === Floating Animation === */
-.float {
-  animation: floaty 3s ease-in-out infinite alternate;
-}
-
-@keyframes floaty {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-15px); }
-}
-
-/* === Fade-In Sections === */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1s ease-out, transform 1s ease-out;
-}
-
-/* === Listings Cards === */
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.listing-card {
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(8px);
-  border-radius: 16px;
-  padding: 1.5rem;
-  width: 250px;
-  box-shadow: 0 0 20px rgba(255,118,140,0.5);
-  transition: transform 0.3s, box-shadow 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Hover Gradient Overlay */
-.listing-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: linear-gradient(120deg, rgba(255,118,140,0.3), rgba(66,230,149,0.3));
-  opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  z-index: 0;
-  transform: scale(1.2);
-  border-radius: 16px;
-}
-
-.listing-card:hover::before {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Ensure content stays above overlay */
-.listing-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-.listing-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 30px rgba(66,230,149,0.8);
-}
-
-.listing-card .image {
-  background: rgba(255,255,255,0.1);
-  height: 150px;
-  margin-bottom: 1rem;
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: rgba(255,255,255,0.5);
-}
-
-/* === About Section === */
-#about {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  margin: 4rem 2rem;
-}
-
-#about .about-text {
-  max-width: 500px;
-}
-
-#about .about-visual {
-  width: 300px;
-  height: 200px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 16px;
-}
-
-/* === Footer === */
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255,255,255,0.2);
-}
-
-/* === Glow Text Utility === */
-.glow-text {
-  text-shadow: 0 0 10px #ff758c, 0 0 20px #42e695;
-}
-
-/* === Hero Particles === */
-.hero-bg .particle {
-  filter: drop-shadow(0 0 6px rgba(255,255,255,0.8));
-  transition: transform 0.2s linear;
+#room-viewer {
+  width: 90%;
+  height: 180px;
+  margin: 0.5rem auto;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.2);
 }
