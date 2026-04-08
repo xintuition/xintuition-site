@@ -1,32 +1,42 @@
-// /api/chat.js
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+  // Allow CORS (important)
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
 
   try {
     const { message } = req.body;
-    if (!message) return res.status(400).json({ error: "No message provided" });
 
-    // Make a chat completion call
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: "You are a helpful luxury real estate AI assistant." },
-        { role: "user", content: message }
-      ],
-      temperature: 0.7
+    if (!message) {
+      return res.status(400).json({ reply: "No message provided" });
+    }
+
+    // 🔥 REPLACE THIS WITH YOUR NGROK URL
+    const COLAB_URL = "https://YOUR-NGROK-URL.ngrok.io/chat";
+
+    const response = await fetch(COLAB_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prompt: message })
     });
 
-    const reply = response.choices?.[0]?.message?.content || "Sorry, no response.";
-    return res.status(200).json({ reply });
+    const data = await response.json();
 
-  } catch (err) {
-    console.error("OpenAI API Call Failed:", err);
-    return res.status(500).json({ error: "Internal server error", details: err.message || err });
+    return res.status(200).json({
+      reply: data.reply || "No response from AI"
+    });
+
+  } catch (error) {
+    console.error("API ERROR:", error);
+
+    return res.status(500).json({
+      reply: "AI is temporarily unavailable"
+    });
   }
 }
